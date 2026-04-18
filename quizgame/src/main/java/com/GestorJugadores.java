@@ -33,9 +33,7 @@ public class GestorJugadores {
  
     /** Retorna true si existe un jugador con ese ID. */
     public boolean existeJugador(int idJugador) {
-        return buscarJugador(idJugador) != null;
+        return buscarPorId(idJugador) != null;
     }
  
-  
-}
 }
