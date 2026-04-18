@@ -21,7 +21,7 @@ public class GestorJugadores {
     /**
      * Busca un jugador por ID. Retorna Optional vacío si no existe.
      */
-    public Jugador buscarJugador(int idJugador) {
+    public Jugador buscarPorId(int idJugador) {
         for (int i = 0; i < jugadores.tamaño(); i++) {
             Jugador j = jugadores.obtener(i);
             if (j.getId() == idJugador) {
@@ -36,15 +36,6 @@ public class GestorJugadores {
         return buscarJugador(idJugador) != null;
     }
  
-    /** Cantidad de jugadores registrados. */
-    public int cantidadJugadores() {
-        return jugadores.tamaño();
-    }
- 
-    /** Retorna la lista interna (para uso en la cola circular de turnos). */
-    public TDALista<Jugador> obtenerJugadores() {
-        return jugadores;
-    }
-
+  
 }
 }
