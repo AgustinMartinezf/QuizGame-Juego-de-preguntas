@@ -1,5 +1,6 @@
 # QuizGame-Juego-de-preguntas
 Proyecto Algoritmos y Estructuras de Datos
+
 **Equipo F – Grupo Fiorella**
 
 ## Integrantes
