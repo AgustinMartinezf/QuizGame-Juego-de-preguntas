@@ -1,17 +1,19 @@
 package com;
 
+import com.ucu.edu.aed.tda.TDAPila;
+
 public class Jugador {
 
     private int idJugador;
     private String nombre;
     private int puntajeActual;
-    private Pila<Respuesta> historial;
+    private TDAPila<Respuesta> historial;
 
     public Jugador(int idJugador, String nombre) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.puntajeActual = 0;
-        this.historial = new Pila<>();
+        this.historial = new PilaEnlazada<>();
     }
 
     public void SumarPuntos(int puntos) {
@@ -33,7 +35,7 @@ public class Jugador {
     public void agregarRespuesta(Respuesta respuesta) {
         this.historial.push(respuesta);
     }
-    public Pila<Respuesta> getHistorial() {
+    public TDAPila<Respuesta> getHistorial() {
         return this.historial;
     }
 
