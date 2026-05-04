@@ -11,19 +11,20 @@ public class Pregunta {
     private String categoria;
     private boolean esCorrecta;
 
-    public Pregunta(int idPregunta, String enunciado, String opciones, String respuestaCorrecta, String categoria) {
+    public Pregunta(int idPregunta, String enunciado, String[] opciones, String respuestaCorrecta, 
+        String categoria) {
+
         this.idPregunta = idPregunta;
         this.enunciado = enunciado;
         this.respuestaCorrecta = respuestaCorrecta;
         this.categoria = categoria;
+
         this.opciones = new ListaArrayList<>();
 
-       
-        String[] partes = opciones.split(",");
-        for (String opcion : partes) {
+        for (String opcion : opciones) {
             this.opciones.agregar(opcion.trim());
         }
-}
+    }
 
     public int getId() {
         return this.idPregunta;
