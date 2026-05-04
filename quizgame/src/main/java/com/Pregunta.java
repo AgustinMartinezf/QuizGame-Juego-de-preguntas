@@ -1,7 +1,6 @@
 package com;
 
 import com.ucu.edu.aed.impl.ListaArrayList;
-import com.ucu.edu.aed.impl.ListaArrayList;
 
 public class Pregunta {
     private int idPregunta;
@@ -18,7 +17,6 @@ public class Pregunta {
         this.enunciado = enunciado;
         this.respuestaCorrecta = respuestaCorrecta;
         this.categoria = categoria;
-
         this.opciones = new ListaArrayList<>();
 
         for (String opcion : opciones) {
@@ -48,6 +46,10 @@ public class Pregunta {
 
     public String getCategoria(){
         return this.categoria;
+    }
+
+    public boolean esCorrecta(String pregunta){
+        return this.respuestaCorrecta == pregunta;
     }
 
 }
