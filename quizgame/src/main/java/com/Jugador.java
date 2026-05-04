@@ -34,7 +34,7 @@ public class Jugador {
     }
 
     public void agregarRespuesta(Respuesta respuesta) {
-        this.historial.push(respuesta);
+        this.historial.mete(respuesta);
     }
     public TDAPila<Respuesta> getHistorial() {
         return this.historial;
