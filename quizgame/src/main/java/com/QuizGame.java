@@ -40,7 +40,7 @@ public class QuizGame {
             throw new IllegalStateException("Se necesitan al menos 2 jugadores para iniciar.");
         }
         if(gestorPreguntas.cantidad()<gestorJugadores.cantidad()){
-               throw new IllegalStateException("Se necesitan "+ gestorJugadores.cantidad()-gestorPreguntas.cantidad() + " preguntas más para comenzar el juego"); 
+               throw new IllegalStateException("Se necesitan "+ ((gestorJugadores.cantidad())-(gestorPreguntas.cantidad())) + " preguntas más para comenzar el juego"); 
             }
         if (gestorPreguntas.cantidad() % gestorJugadores.cantidad() != 0) {
             int faltan = gestorJugadores.cantidad() - (gestorPreguntas.cantidad() % gestorJugadores.cantidad());
