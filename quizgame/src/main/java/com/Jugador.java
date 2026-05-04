@@ -1,6 +1,7 @@
 package com;
 
 import com.ucu.edu.aed.tda.TDAPila;
+import com.ucu.edu.aed.impl.PilaEnlazada;
 
 public class Jugador {
 
@@ -33,7 +34,7 @@ public class Jugador {
     }
 
     public void agregarRespuesta(Respuesta respuesta) {
-        this.historial.push(respuesta);
+        this.historial.mete(respuesta);
     }
     public TDAPila<Respuesta> getHistorial() {
         return this.historial;

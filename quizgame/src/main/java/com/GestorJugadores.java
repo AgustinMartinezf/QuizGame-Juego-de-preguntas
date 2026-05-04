@@ -10,30 +10,31 @@ public class GestorJugadores {
     /**
      * Registra un nuevo jugador. Lanza excepción si el ID ya existe.
      */
-    public void registrarJugador(int idJugador, String nombre) {
-        if (existeJugador(idJugador)) {
+    public void registrarJugador(Jugador jugador) {
+        if (existeJugador(jugador.getId())) {
             throw new IllegalArgumentException(
-                    "Ya existe un jugador con el ID: " + idJugador);
+                    "Ya existe un jugador con el ID: " + jugador.getId());
         }
-        jugadores.agregar(new Jugador(idJugador, nombre));
+        jugadores.agregar(jugador);
     }
  
     /**
      * Busca un jugador por ID. Retorna Optional vacío si no existe.
      */
     public Jugador buscarPorId(int idJugador) {
-        for (int i = 0; i < jugadores.tamaño(); i++) {
-            Jugador j = jugadores.obtener(i);
-            if (j.getId() == idJugador) {
-                return j;
-            }
-        }
-        return null;
+       return jugadores.buscar(j->j.getId()==idJugador);
     }
  
     /** Retorna true si existe un jugador con ese ID. */
     public boolean existeJugador(int idJugador) {
         return buscarPorId(idJugador) != null;
+    }
+
+    public int cantidad(){
+        return jugadores.tamaño();
+    }
+    public TDALista<Jugador> obtenerTodos(){
+        return jugadores;
     }
  
 }
