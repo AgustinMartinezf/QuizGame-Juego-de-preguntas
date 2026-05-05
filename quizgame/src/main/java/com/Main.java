@@ -10,9 +10,9 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("===================================");
-        System.out.println("     QuizGame - Juego de Preguntas");
-        System.out.println("===================================");
+        
+        System.out.println("QuizGame - Juego de Preguntas");
+        
 
         boolean salir = false;
         while (!salir) {
@@ -154,9 +154,7 @@ public class Main {
         }
 
         System.out.println();
-        System.out.println("===================================");
         System.out.println("   La partida ha terminado!");
-        System.out.println("===================================");
         mostrarPuntajes();
         mostrarGanador();
     }
