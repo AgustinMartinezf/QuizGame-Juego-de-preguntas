@@ -1,16 +1,16 @@
 package com;
 
 import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
 
 public class Pregunta {
     private int idPregunta;
     private String enunciado;
-    private ListaArrayList<String> opciones;
+    private TDALista<String> opciones;
     private String respuestaCorrecta;
     private String categoria;
-    private boolean esCorrecta;
 
-    public Pregunta(int idPregunta, String enunciado, String[] opciones, String respuestaCorrecta, 
+    public Pregunta(int idPregunta, String enunciado, String[] opciones, String respuestaCorrecta,
         String categoria) {
 
         this.idPregunta = idPregunta;
@@ -36,11 +36,7 @@ public class Pregunta {
         return this.respuestaCorrecta;
     }
 
-    public boolean getEsCorrecta(){
-        return this.esCorrecta;
-    }
-
-    public ListaArrayList<String> getOpciones(){
+    public TDALista<String> getOpciones(){
         return opciones;
     }
 
@@ -48,8 +44,9 @@ public class Pregunta {
         return this.categoria;
     }
 
-    public boolean esCorrecta(String pregunta){
-        return this.respuestaCorrecta == pregunta;
+    public boolean esCorrecta(String respuesta){
+        if (respuesta == null) return false;
+        return this.respuestaCorrecta.equals(respuesta);
     }
 
 }
