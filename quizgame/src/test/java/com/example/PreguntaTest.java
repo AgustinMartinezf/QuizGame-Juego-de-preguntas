@@ -1,7 +1,9 @@
 package com.example;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -11,16 +13,13 @@ import com.Pregunta;
 
 public class PreguntaTest {
     private Pregunta pregunta;
-    private String[] opciones;
 
     @Before
     public void setUp() {
-        opciones = new String[]{" Paris ", " Madrid ", " Roma "};
-
         pregunta = new Pregunta(
                 1,
                 "Capital de Francia",
-                opciones,
+                new String[]{"Paris", "Madrid", "Roma"},
                 "Paris",
                 "Geografia"
         );
@@ -35,15 +34,8 @@ public class PreguntaTest {
     }
 
     @Test
-    public void testGetOpciones() { //devuelve las opciones
-        assertEquals(3, pregunta.getOpciones().tamaño());
-    }
-
-    @Test
-    public void testOpciones() {
-        assertEquals("Paris", pregunta.getOpciones().obtener(0));
-        assertEquals("Madrid", pregunta.getOpciones().obtener(1));
-        assertEquals("Roma", pregunta.getOpciones().obtener(2));
+    public void testGetOpciones() {
+        assertArrayEquals(new String[]{"Paris", "Madrid", "Roma"}, pregunta.getOpciones());
     }
 
     @Test
@@ -52,7 +44,30 @@ public class PreguntaTest {
     }
 
     @Test
+    public void testEsCorrectaIgnoraMayusculas() {
+        assertTrue(pregunta.esCorrecta("paris"));
+        assertTrue(pregunta.esCorrecta("PARIS"));
+    }
+
+    @Test
     public void testEsCorrectaFalse() {
         assertFalse(pregunta.esCorrecta("Madrid"));
+    }
+
+    @Test
+    public void testEsCorrectaConNullEsFalse() {
+        assertFalse(pregunta.esCorrecta(null));
+    }
+
+    @Test
+    public void testEnunciadoVacioLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Pregunta(2, "  ", new String[]{"a", "b"}, "a", "Cat"));
+    }
+
+    @Test
+    public void testMenosDeDosOpcionesLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Pregunta(2, "E", new String[]{"a"}, "a", "Cat"));
     }
 }
