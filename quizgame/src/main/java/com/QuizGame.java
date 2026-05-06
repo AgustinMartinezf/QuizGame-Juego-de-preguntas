@@ -61,7 +61,12 @@ public class QuizGame {
         colaTurnos.vaciar();
         TDALista<Jugador> todos = gestorJugadores.obtenerTodos();
         for (int i = 0; i < todos.tamaño(); i++) {
-            colaTurnos.poneEnCola(todos.obtener(i));
+            Jugador j = todos.obtener(i);
+            j.reiniciarPuntaje();
+            while (!j.getHistorial().esVacio()) {
+                j.getHistorial().saca();
+            }
+            colaTurnos.poneEnCola(j);
         }
         colaPreguntasPendientes = gestorPreguntas.obtenerColaPreguntas();
         partidaIniciada = true;
@@ -92,6 +97,11 @@ public class QuizGame {
         }
         if (colaPreguntasPendientes.esVacio()) {
             throw new IllegalStateException("No hay más preguntas pendientes.");
+        }
+        Pregunta preguntaFrente = colaPreguntasPendientes.frente();
+        if (!preguntaFrente.esOpcionValida(respuestaDada)) {
+            throw new IllegalArgumentException(
+                    "La respuesta debe ser una de las opciones disponibles.");
         }
 
         Jugador jugador = colaTurnos.quitaDeCola();

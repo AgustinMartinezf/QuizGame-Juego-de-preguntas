@@ -123,6 +123,43 @@ public class QuizGameTest {
         juego.determinarGanador();
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void responderConOpcionInvalidaLanzaError() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.responder("respuesta inventada");
+    }
+
+    @Test
+    public void responderConOpcionInvalidaNoConsumeTurno() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        Jugador antesJ = juego.jugadorActual();
+        int antesPreg = juego.preguntaActual().getId();
+        try {
+            juego.responder("xxx");
+        } catch (IllegalArgumentException ignored) { }
+        assertEquals(antesJ.getNombre(), juego.jugadorActual().getNombre());
+        assertEquals(antesPreg, juego.preguntaActual().getId());
+    }
+
+    @Test
+    public void reiniciarPartidaTerminadaResetaPuntajesEHistorial() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.responder("Montevideo");
+        juego.responder("4");
+        assertEquals(juego.getPuntosPorCorrecta(),
+                juego.getGestorJugadores().buscarPorId(1).getPuntaje());
+
+        juego.iniciarPartida();
+        assertEquals(0, juego.getGestorJugadores().buscarPorId(1).getPuntaje());
+        assertEquals(0, juego.getGestorJugadores().buscarPorId(2).getPuntaje());
+        assertTrue(juego.getGestorJugadores().buscarPorId(1).getHistorial().esVacio());
+        assertTrue(juego.getGestorJugadores().buscarPorId(2).getHistorial().esVacio());
+        assertTrue(juego.hayPreguntasPendientes());
+    }
+
     @Test
     public void seReanudanGestionesUnaVezTerminadaLaPartida() {
         QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();

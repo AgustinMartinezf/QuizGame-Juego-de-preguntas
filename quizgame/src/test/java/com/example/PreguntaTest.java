@@ -81,4 +81,24 @@ public class PreguntaTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new Pregunta(2, "E", opciones("a"), "a", "Cat"));
     }
+
+    @Test
+    public void testRespuestaCorrectaFueraDeLasOpcionesLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Pregunta(2, "E", opciones("a", "b"), "z", "Cat"));
+    }
+
+    @Test
+    public void testRespuestaCorrectaMatchCaseInsensitive() {
+        Pregunta p = new Pregunta(3, "E", opciones("Paris", "Madrid"), "PARIS", "Cat");
+        assertTrue(p.esCorrecta("paris"));
+    }
+
+    @Test
+    public void testEsOpcionValida() {
+        assertTrue(pregunta.esOpcionValida("paris"));
+        assertTrue(pregunta.esOpcionValida("Madrid"));
+        assertFalse(pregunta.esOpcionValida("Londres"));
+        assertFalse(pregunta.esOpcionValida(null));
+    }
 }
