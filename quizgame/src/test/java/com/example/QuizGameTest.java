@@ -50,4 +50,64 @@ public class QuizGameTest {
         assertNotNull(revertida);
         assertEquals(0, juego.getGestorJugadores().buscarPorId(1).getPuntaje());
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void noSePuedeRegistrarJugadorDuranteLaPartida() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.registrarJugador(99, "Intruso");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void noSePuedeRegistrarPreguntaDuranteLaPartida() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.registrarPregunta(99, "X", new String[]{"a", "b"}, "a", "C");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void noSePuedeEliminarPreguntaDuranteLaPartida() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.eliminarPregunta(10);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void noSePuedeReiniciarPartidaEnCurso() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.iniciarPartida();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void mostrarPuntajesAntesDeIniciarLanzaError() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.obtenerPuntajes();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void rankingAntesDeIniciarLanzaError() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.obtenerRanking();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void ganadorAntesDeIniciarLanzaError() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.determinarGanador();
+    }
+
+    @Test
+    public void seReanudanGestionesUnaVezTerminadaLaPartida() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+        juego.responder("Montevideo");
+        juego.responder("4");
+        assertTrue(juego.isPartidaTerminada());
+
+        juego.registrarJugador(3, "Carlos");
+        juego.registrarPregunta(12, "1+1", new String[]{"1", "2"}, "2", "Mat");
+        assertEquals(3, juego.getGestorJugadores().cantidad());
+        assertEquals(3, juego.getGestorPreguntas().cantidad());
+    }
 }

@@ -176,12 +176,16 @@ public class Main {
     }
 
     private static void mostrarPuntajes() {
-        System.out.println();
-        System.out.println("-- Puntajes --");
-        TDALista<Jugador> ranking = juego.obtenerRanking();
-        for (int i = 0; i < ranking.tamaño(); i++) {
-            Jugador j = ranking.obtener(i);
-            System.out.println("  " + (i + 1) + ". " + j);
+        try {
+            TDALista<Jugador> ranking = juego.obtenerRanking();
+            System.out.println();
+            System.out.println("-- Puntajes --");
+            for (int i = 0; i < ranking.tamaño(); i++) {
+                Jugador j = ranking.obtener(i);
+                System.out.println("  " + (i + 1) + ". " + j);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
