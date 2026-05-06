@@ -19,6 +19,10 @@ public class ListaArrayList<T> implements TDALista<T> {
         tamanio = 0;
     }
 
+    public ListaArrayList(int capacidad) {
+        datos   = new Object[capacidad];
+        tamanio = 0;
+    }
 
     private void validarIndice(int index) {
         if (index < 0 || index >= tamanio) {
