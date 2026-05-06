@@ -2,11 +2,14 @@ package com;
 
 import java.util.Objects;
 
+import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
+
 public class Pregunta {
 
     private final int idPregunta;
     private final String enunciado;
-    private final String[] opciones;
+    private final TDALista<String> opciones;
     private final String respuestaCorrecta;
     private final String categoria;
 
@@ -26,7 +29,10 @@ public class Pregunta {
         }
         this.idPregunta = idPregunta;
         this.enunciado = enunciado;
-        this.opciones = opciones.clone();
+        this.opciones = new ListaArrayList<>();
+        for (String op : opciones) {
+            this.opciones.agregar(op);
+        }
         this.respuestaCorrecta = respuestaCorrecta;
         this.categoria = categoria;
     }
@@ -40,7 +46,11 @@ public class Pregunta {
     }
 
     public String[] getOpciones() {
-        return opciones.clone();
+        String[] copia = new String[opciones.tamaño()];
+        for (int i = 0; i < opciones.tamaño(); i++) {
+            copia[i] = opciones.obtener(i);
+        }
+        return copia;
     }
 
     public String getRespuestaCorrecta() {
@@ -72,8 +82,8 @@ public class Pregunta {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[").append(categoria).append("] ").append(enunciado).append("\n");
-        for (int i = 0; i < opciones.length; i++) {
-            sb.append("  ").append((char) ('A' + i)).append(") ").append(opciones[i]).append("\n");
+        for (int i = 0; i < opciones.tamaño(); i++) {
+            sb.append("  ").append((char) ('A' + i)).append(") ").append(opciones.obtener(i)).append("\n");
         }
         return sb.toString();
     }
