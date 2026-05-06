@@ -21,21 +21,32 @@ public class QuizGame {
         this.partidaTerminada = false;
     }
 
+    private void validarNoEnCurso() {
+        if (partidaIniciada && !partidaTerminada) {
+            throw new IllegalStateException(
+                    "No se puede modificar jugadores ni preguntas mientras la partida está en curso.");
+        }
+    }
+
     public void registrarJugador(int id, String nombre) {
+        validarNoEnCurso();
         Jugador j = new Jugador(id, nombre);
         gestorJugadores.registrarJugador(j);
     }
 
-    public void registrarPregunta(int id, String enunciado, String[] opciones, String respuestaCorrecta, String categoria) {
+    public void registrarPregunta(int id, String enunciado, TDALista<String> opciones, String respuestaCorrecta, String categoria) {
+        validarNoEnCurso();
         Pregunta p = new Pregunta(id, enunciado, opciones, respuestaCorrecta, categoria);
         gestorPreguntas.agregarPregunta(p);
     }
 
     public void eliminarPregunta(int idPregunta) {
+        validarNoEnCurso();
         gestorPreguntas.eliminarPregunta(idPregunta);
     }
 
     public void iniciarPartida() {
+        validarNoEnCurso();
         if (gestorJugadores.cantidad() < 2) {
             throw new IllegalStateException("Se necesitan al menos 2 jugadores para iniciar.");
         }
@@ -119,11 +130,20 @@ public class QuizGame {
         return revertida;
     }
 
+    private void validarPartidaYaIniciada() {
+        if (!partidaIniciada) {
+            throw new IllegalStateException(
+                    "La partida no fue iniciada todavía: aún no hay puntajes para mostrar.");
+        }
+    }
+
     public TDALista<Jugador> obtenerPuntajes() {
+        validarPartidaYaIniciada();
         return gestorJugadores.obtenerTodos();
     }
 
     public Jugador determinarGanador() {
+        validarPartidaYaIniciada();
         TDALista<Jugador> jugadores = gestorJugadores.obtenerTodos();
         if (jugadores.esVacio()) {
             throw new IllegalStateException("No hay jugadores registrados.");
@@ -139,6 +159,7 @@ public class QuizGame {
     }
 
     public TDALista<Jugador> obtenerRanking() {
+        validarPartidaYaIniciada();
         TDALista<Jugador> jugadores = gestorJugadores.obtenerTodos();
         return jugadores.ordenar((a, b) -> Integer.compare(b.getPuntaje(), a.getPuntaje()));
     }

@@ -1,5 +1,7 @@
 package com;
 
+import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
 import com.ucu.edu.aed.utils.FileUtils;
 
 public class CargadorCSV {
@@ -19,9 +21,10 @@ public class CargadorCSV {
             try {
                 int id = Integer.parseInt(partes[0].trim());
                 String enunciado = partes[1].trim();
-                String[] opciones = partes[2].trim().split(",");
-                for (int i = 0; i < opciones.length; i++) {
-                    opciones[i] = opciones[i].trim();
+                String[] tokens = partes[2].trim().split(",");
+                TDALista<String> opciones = new ListaArrayList<>(tokens.length);
+                for (String token : tokens) {
+                    opciones.agregar(token.trim());
                 }
                 String correcta = partes[3].trim();
                 String categoria = partes[4].trim();

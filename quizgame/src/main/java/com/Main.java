@@ -1,6 +1,7 @@
 package com;
 
 import com.ucu.edu.aed.tda.TDALista;
+import com.ucu.edu.aed.impl.ListaArrayList;
 
 import java.util.Scanner;
 
@@ -72,10 +73,10 @@ public class Main {
             String categoria = scanner.nextLine().trim();
             System.out.print("Cantidad de opciones: ");
             int n = Integer.parseInt(scanner.nextLine().trim());
-            String[] opciones = new String[n];
+            TDALista<String> opciones = new ListaArrayList<>(n);
             for (int i = 0; i < n; i++) {
                 System.out.print("  Opcion " + (char) ('A' + i) + ": ");
-                opciones[i] = scanner.nextLine().trim();
+                opciones.agregar(scanner.nextLine().trim());
             }
             System.out.print("Respuesta correcta: ");
             String correcta = scanner.nextLine().trim();
@@ -170,12 +171,16 @@ public class Main {
     }
 
     private static void mostrarPuntajes() {
-        System.out.println();
-        System.out.println("-- Puntajes --");
-        TDALista<Jugador> ranking = juego.obtenerRanking();
-        for (int i = 0; i < ranking.tamaño(); i++) {
-            Jugador j = ranking.obtener(i);
-            System.out.println("  " + (i + 1) + ". " + j);
+        try {
+            TDALista<Jugador> ranking = juego.obtenerRanking();
+            System.out.println();
+            System.out.println("-- Puntajes --");
+            for (int i = 0; i < ranking.tamaño(); i++) {
+                Jugador j = ranking.obtener(i);
+                System.out.println("  " + (i + 1) + ". " + j);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

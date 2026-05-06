@@ -8,12 +8,16 @@ import org.junit.Test;
 
 import com.Pregunta;
 import com.Respuesta;
+import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
 
 public class RespuestaTest {
 
     private Pregunta nuevaPregunta() {
-        return new Pregunta(1, "Capital de Uruguay",
-                new String[]{"Buenos Aires", "Montevideo"}, "Montevideo", "Geo");
+        TDALista<String> opciones = new ListaArrayList<>(2);
+        opciones.agregar("Buenos Aires");
+        opciones.agregar("Montevideo");
+        return new Pregunta(1, "Capital de Uruguay", opciones, "Montevideo", "Geo");
     }
 
     @Test

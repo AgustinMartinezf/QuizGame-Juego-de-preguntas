@@ -1,6 +1,5 @@
 package com.example;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
@@ -10,16 +9,24 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.Pregunta;
+import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
 
 public class PreguntaTest {
     private Pregunta pregunta;
+
+    private static TDALista<String> opciones(String... items) {
+        TDALista<String> lista = new ListaArrayList<>(items.length);
+        for (String s : items) lista.agregar(s);
+        return lista;
+    }
 
     @Before
     public void setUp() {
         pregunta = new Pregunta(
                 1,
                 "Capital de Francia",
-                new String[]{"Paris", "Madrid", "Roma"},
+                opciones("Paris", "Madrid", "Roma"),
                 "Paris",
                 "Geografia"
         );
@@ -35,7 +42,11 @@ public class PreguntaTest {
 
     @Test
     public void testGetOpciones() {
-        assertArrayEquals(new String[]{"Paris", "Madrid", "Roma"}, pregunta.getOpciones());
+        TDALista<String> ops = pregunta.getOpciones();
+        assertEquals(3, ops.tamaño());
+        assertEquals("Paris", ops.obtener(0));
+        assertEquals("Madrid", ops.obtener(1));
+        assertEquals("Roma", ops.obtener(2));
     }
 
     @Test
@@ -62,12 +73,12 @@ public class PreguntaTest {
     @Test
     public void testEnunciadoVacioLanzaExcepcion() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Pregunta(2, "  ", new String[]{"a", "b"}, "a", "Cat"));
+                () -> new Pregunta(2, "  ", opciones("a", "b"), "a", "Cat"));
     }
 
     @Test
     public void testMenosDeDosOpcionesLanzaExcepcion() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Pregunta(2, "E", new String[]{"a"}, "a", "Cat"));
+                () -> new Pregunta(2, "E", opciones("a"), "a", "Cat"));
     }
 }
