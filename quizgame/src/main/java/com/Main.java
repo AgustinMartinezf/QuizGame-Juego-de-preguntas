@@ -25,9 +25,8 @@ public class Main {
                 case "4": cargarDesdeCSV(); break;
                 case "5": iniciarPartida(); break;
                 case "6": jugarPartida(); break;
-                case "7": deshacerRespuesta(); break;
-                case "8": mostrarPuntajes(); break;
-                case "9": mostrarGanador(); break;
+                case "7": mostrarPuntajes(); break;
+                case "8": mostrarGanador(); break;
                 case "0": salir = true; break;
                 default: System.out.println("Opcion no valida.");
             }
@@ -44,9 +43,8 @@ public class Main {
         System.out.println("4. Cargar datos desde CSV");
         System.out.println("5. Iniciar partida");
         System.out.println("6. Jugar partida (responder preguntas)");
-        System.out.println("7. Deshacer ultima respuesta de un jugador");
-        System.out.println("8. Mostrar puntajes");
-        System.out.println("9. Mostrar ganador");
+        System.out.println("7. Mostrar puntajes");
+        System.out.println("8. Mostrar ganador");
         System.out.println("0. Salir");
         System.out.print("Opcion: ");
     }
@@ -136,12 +134,24 @@ public class Main {
             System.out.println();
             System.out.println("-- Turno de: " + jugadorActual.getNombre() + " --");
             System.out.print(preguntaActual);
-            System.out.print("Tu respuesta (o 'salir' para pausar): ");
+            System.out.print("Tu respuesta ('deshacer' para revertir la ultima respuesta, 'salir' para pausar): ");
             String resp = scanner.nextLine().trim();
 
             if (resp.equalsIgnoreCase("salir")) {
                 System.out.println("Partida pausada.");
                 return;
+            }
+
+            if (resp.equalsIgnoreCase("deshacer")) {
+                try {
+                    Respuesta deshecha = juego.deshacer();
+                    System.out.println("Se deshizo la respuesta de "
+                            + deshecha.getPregunta().getId() + " (-" + deshecha.getPuntosOtorgados()
+                            + " puntos). La pregunta vuelve a estar pendiente.");
+                } catch (Exception e) {
+                    System.out.println("No se pudo deshacer: " + e.getMessage());
+                }
+                continue;
             }
 
             Respuesta resultado = juego.responder(resp);
@@ -157,22 +167,6 @@ public class Main {
         System.out.println("   La partida ha terminado!");
         mostrarPuntajes();
         mostrarGanador();
-    }
-
-    private static void deshacerRespuesta() {
-        try {
-            System.out.print("ID del jugador: ");
-            int id = Integer.parseInt(scanner.nextLine().trim());
-            Respuesta deshecha = juego.deshacer(id);
-            if (deshecha == null) {
-                System.out.println("El jugador no tiene respuestas para deshacer.");
-            } else {
-                System.out.println("Respuesta deshecha: pregunta #" + deshecha.getPregunta().getId()
-                        + " (se revertieron " + deshecha.getPuntosOtorgados() + " puntos).");
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
     }
 
     private static void mostrarPuntajes() {

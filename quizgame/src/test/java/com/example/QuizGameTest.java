@@ -38,7 +38,7 @@ public class QuizGameTest {
     }
 
     @Test
-    public void deshacerRevierteLaUltimaRespuestaDelJugador() {
+    public void deshacerRevierteLaUltimaRespuestaYReinsertaLaPregunta() {
         QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
         juego.iniciarPartida();
 
@@ -46,8 +46,26 @@ public class QuizGameTest {
         int puntajeAntes = juego.getGestorJugadores().buscarPorId(1).getPuntaje();
         assertEquals(juego.getPuntosPorCorrecta(), puntajeAntes);
 
-        Respuesta revertida = juego.deshacer(1);
+        Respuesta revertida = juego.deshacer();
         assertNotNull(revertida);
         assertEquals(0, juego.getGestorJugadores().buscarPorId(1).getPuntaje());
+        assertEquals("Ana", juego.jugadorActual().getNombre());
+        assertEquals(10, juego.preguntaActual().getId());
+        assertTrue(juego.hayPreguntasPendientes());
+    }
+
+    @Test
+    public void deshacerLuegoDeTerminarReabrePartida() {
+        QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
+        juego.iniciarPartida();
+
+        juego.responder("Montevideo");
+        juego.responder("3");
+        assertTrue(juego.isPartidaTerminada());
+
+        juego.deshacer();
+        assertEquals("Bruno", juego.jugadorActual().getNombre());
+        assertEquals(11, juego.preguntaActual().getId());
+        assertTrue(!juego.isPartidaTerminada());
     }
 }
