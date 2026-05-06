@@ -95,12 +95,28 @@ public class QuizGame {
         return respuesta;
     }
 
-    public Respuesta deshacer(int idJugador) {
-        Jugador jugador = gestorJugadores.buscarPorId(idJugador);
-        if (jugador == null) {
-            throw new IllegalArgumentException("No existe jugador con ID: " + idJugador);
+    public Respuesta deshacer() {
+        if (!partidaIniciada) {
+            throw new IllegalStateException("La partida no está iniciada.");
         }
-        return jugador.deshacerUltimaRespuesta();
+        if (colaTurnos.esVacio()) {
+            throw new IllegalStateException("No hay jugadores en la partida.");
+        }
+        int n = colaTurnos.tamaño();
+        Jugador ultimoEnResponder = colaTurnos.obtener(n - 1);
+        if (ultimoEnResponder.getHistorial().esVacio()) {
+            throw new IllegalStateException("Todavía no hay respuestas para deshacer.");
+        }
+
+        Respuesta revertida = ultimoEnResponder.deshacerUltimaRespuesta();
+        colaPreguntasPendientes.agregar(0, revertida.getPregunta());
+
+        for (int i = 0; i < n - 1; i++) {
+            colaTurnos.poneEnCola(colaTurnos.quitaDeCola());
+        }
+
+        partidaTerminada = false;
+        return revertida;
     }
 
     public TDALista<Jugador> obtenerPuntajes() {
