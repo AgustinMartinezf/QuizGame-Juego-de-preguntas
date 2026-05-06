@@ -155,12 +155,16 @@ public class Main {
                 continue;
             }
 
-            Respuesta resultado = juego.responder(resp);
-            if (resultado.isCorrecta()) {
-                System.out.println("Correcto! +" + resultado.getPuntosOtorgados() + " puntos.");
-            } else {
-                System.out.println("Incorrecto. La respuesta era: "
-                        + preguntaActual.getRespuestaCorrecta());
+            try {
+                Respuesta resultado = juego.responder(resp);
+                if (resultado.isCorrecta()) {
+                    System.out.println("Correcto! +" + resultado.getPuntosOtorgados() + " puntos.");
+                } else {
+                    System.out.println("Incorrecto. La respuesta era: "
+                            + preguntaActual.getRespuestaCorrecta());
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage() + " Intenta de nuevo.");
             }
         }
 

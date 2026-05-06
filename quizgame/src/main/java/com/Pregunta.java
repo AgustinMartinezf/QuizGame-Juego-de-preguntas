@@ -30,8 +30,17 @@ public class Pregunta {
         this.idPregunta = idPregunta;
         this.enunciado = enunciado;
         this.opciones = new ListaArrayList<>(opciones.tamaño());
+        boolean correctaPresente = false;
         for (int i = 0; i < opciones.tamaño(); i++) {
-            this.opciones.agregar(opciones.obtener(i));
+            String op = opciones.obtener(i);
+            this.opciones.agregar(op);
+            if (op != null && op.equalsIgnoreCase(respuestaCorrecta)) {
+                correctaPresente = true;
+            }
+        }
+        if (!correctaPresente) {
+            throw new IllegalArgumentException(
+                    "La respuesta correcta debe ser una de las opciones.");
         }
         this.respuestaCorrecta = respuestaCorrecta;
         this.categoria = categoria;
@@ -64,6 +73,14 @@ public class Pregunta {
     public boolean esCorrecta(String respuesta) {
         if (respuesta == null) return false;
         return respuestaCorrecta.equalsIgnoreCase(respuesta);
+    }
+
+    public boolean esOpcionValida(String respuesta) {
+        if (respuesta == null) return false;
+        for (int i = 0; i < opciones.tamaño(); i++) {
+            if (opciones.obtener(i).equalsIgnoreCase(respuesta)) return true;
+        }
+        return false;
     }
 
     @Override
