@@ -13,12 +13,12 @@ public class Pregunta {
     private final String respuestaCorrecta;
     private final String categoria;
 
-    public Pregunta(int idPregunta, String enunciado, String[] opciones,
+    public Pregunta(int idPregunta, String enunciado, TDALista<String> opciones,
                     String respuestaCorrecta, String categoria) {
         if (enunciado == null || enunciado.isBlank()) {
             throw new IllegalArgumentException("El enunciado no puede ser vacío.");
         }
-        if (opciones == null || opciones.length < 2) {
+        if (opciones == null || opciones.tamaño() < 2) {
             throw new IllegalArgumentException("Debe haber al menos 2 opciones.");
         }
         if (respuestaCorrecta == null || respuestaCorrecta.isBlank()) {
@@ -29,9 +29,9 @@ public class Pregunta {
         }
         this.idPregunta = idPregunta;
         this.enunciado = enunciado;
-        this.opciones = new ListaArrayList<>();
-        for (String op : opciones) {
-            this.opciones.agregar(op);
+        this.opciones = new ListaArrayList<>(opciones.tamaño());
+        for (int i = 0; i < opciones.tamaño(); i++) {
+            this.opciones.agregar(opciones.obtener(i));
         }
         this.respuestaCorrecta = respuestaCorrecta;
         this.categoria = categoria;
@@ -45,10 +45,10 @@ public class Pregunta {
         return enunciado;
     }
 
-    public String[] getOpciones() {
-        String[] copia = new String[opciones.tamaño()];
+    public TDALista<String> getOpciones() {
+        TDALista<String> copia = new ListaArrayList<>(opciones.tamaño());
         for (int i = 0; i < opciones.tamaño(); i++) {
-            copia[i] = opciones.obtener(i);
+            copia.agregar(opciones.obtener(i));
         }
         return copia;
     }

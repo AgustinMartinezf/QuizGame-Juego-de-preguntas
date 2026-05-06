@@ -4,6 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import com.*;
+import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +19,10 @@ public class JugadorTest {
     public void setUp() {
         jugador = new Jugador(1, "Carlos");
 
-        String[] opciones = {"Paris", "Madrid", "Roma"};
+        TDALista<String> opciones = new ListaArrayList<>(3);
+        opciones.agregar("Paris");
+        opciones.agregar("Madrid");
+        opciones.agregar("Roma");
 
         pregunta = new Pregunta(
                 1,

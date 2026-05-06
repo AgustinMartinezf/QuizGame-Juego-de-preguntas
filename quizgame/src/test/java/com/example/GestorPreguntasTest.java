@@ -12,15 +12,20 @@ import org.junit.Test;
 
 import com.GestorPreguntas;
 import com.Pregunta;
+import com.ucu.edu.aed.impl.ListaArrayList;
 import com.ucu.edu.aed.tda.TDACola;
+import com.ucu.edu.aed.tda.TDALista;
 
 public class GestorPreguntasTest {
 
     private GestorPreguntas gestor;
 
     private Pregunta crearPregunta(int id) {
-        return new Pregunta(id, "Pregunta " + id,
-                new String[]{"A", "B", "C"}, "A", "General");
+        TDALista<String> opciones = new ListaArrayList<>(3);
+        opciones.agregar("A");
+        opciones.agregar("B");
+        opciones.agregar("C");
+        return new Pregunta(id, "Pregunta " + id, opciones, "A", "General");
     }
 
     @Before

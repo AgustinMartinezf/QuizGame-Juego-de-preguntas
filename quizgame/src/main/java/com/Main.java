@@ -1,6 +1,7 @@
 package com;
 
 import com.ucu.edu.aed.tda.TDALista;
+import com.ucu.edu.aed.impl.ListaArrayList;
 
 import java.util.Scanner;
 
@@ -74,10 +75,10 @@ public class Main {
             String categoria = scanner.nextLine().trim();
             System.out.print("Cantidad de opciones: ");
             int n = Integer.parseInt(scanner.nextLine().trim());
-            String[] opciones = new String[n];
+            TDALista<String> opciones = new ListaArrayList<>(n);
             for (int i = 0; i < n; i++) {
                 System.out.print("  Opcion " + (char) ('A' + i) + ": ");
-                opciones[i] = scanner.nextLine().trim();
+                opciones.agregar(scanner.nextLine().trim());
             }
             System.out.print("Respuesta correcta: ");
             String correcta = scanner.nextLine().trim();

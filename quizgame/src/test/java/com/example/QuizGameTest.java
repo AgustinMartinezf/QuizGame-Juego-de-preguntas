@@ -3,6 +3,8 @@ package com.example;
 import com.Jugador;
 import com.QuizGame;
 import com.Respuesta;
+import com.ucu.edu.aed.impl.ListaArrayList;
+import com.ucu.edu.aed.tda.TDALista;
 
 import org.junit.Test;
 
@@ -12,14 +14,20 @@ import static org.junit.Assert.assertTrue;
 
 public class QuizGameTest {
 
+    private static TDALista<String> opciones(String... items) {
+        TDALista<String> lista = new ListaArrayList<>(items.length);
+        for (String s : items) lista.agregar(s);
+        return lista;
+    }
+
     private QuizGame nuevoJuegoConDosJugadoresYDosPreguntas() {
         QuizGame juego = new QuizGame();
         juego.registrarJugador(1, "Ana");
         juego.registrarJugador(2, "Bruno");
         juego.registrarPregunta(10, "Capital de Uruguay",
-                new String[]{"Montevideo", "Buenos Aires"}, "Montevideo", "Geo");
+                opciones("Montevideo", "Buenos Aires"), "Montevideo", "Geo");
         juego.registrarPregunta(11, "2+2",
-                new String[]{"3", "4"}, "4", "Mat");
+                opciones("3", "4"), "4", "Mat");
         return juego;
     }
 
@@ -62,7 +70,7 @@ public class QuizGameTest {
     public void noSePuedeRegistrarPreguntaDuranteLaPartida() {
         QuizGame juego = nuevoJuegoConDosJugadoresYDosPreguntas();
         juego.iniciarPartida();
-        juego.registrarPregunta(99, "X", new String[]{"a", "b"}, "a", "C");
+        juego.registrarPregunta(99, "X", opciones("a", "b"), "a", "C");
     }
 
     @Test(expected = IllegalStateException.class)
@@ -106,7 +114,7 @@ public class QuizGameTest {
         assertTrue(juego.isPartidaTerminada());
 
         juego.registrarJugador(3, "Carlos");
-        juego.registrarPregunta(12, "1+1", new String[]{"1", "2"}, "2", "Mat");
+        juego.registrarPregunta(12, "1+1", opciones("1", "2"), "2", "Mat");
         assertEquals(3, juego.getGestorJugadores().cantidad());
         assertEquals(3, juego.getGestorPreguntas().cantidad());
     }

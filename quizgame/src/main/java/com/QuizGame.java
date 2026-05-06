@@ -34,7 +34,7 @@ public class QuizGame {
         gestorJugadores.registrarJugador(j);
     }
 
-    public void registrarPregunta(int id, String enunciado, String[] opciones, String respuestaCorrecta, String categoria) {
+    public void registrarPregunta(int id, String enunciado, TDALista<String> opciones, String respuestaCorrecta, String categoria) {
         validarNoEnCurso();
         Pregunta p = new Pregunta(id, enunciado, opciones, respuestaCorrecta, categoria);
         gestorPreguntas.agregarPregunta(p);
